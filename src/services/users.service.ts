@@ -1,5 +1,5 @@
 import jwt, { SignOptions } from 'jsonwebtoken';
-import { IUser } from '../interfaces/user';
+import { ICredentials, IUser } from '../interfaces/user';
 import usersModel from '../models/users.model';
 
 const JWT_SECRET = process.env.JWT_SECRET || 'segredo';
@@ -16,8 +16,23 @@ const create = async (user: IUser) => {
   return token;
 };
 
+const login = async (credentials: ICredentials) => {
+  const user = await usersModel.getByUsername(credentials);
+  console.log(user);
+  
+  if (!user || user.password !== credentials.password) {
+    return { type: 401, message: 'Username or password invalid' };
+  }
+
+  const payload = { id: user.id, username: user.username };
+  const token = jwt.sign(payload, JWT_SECRET, JWT_CONFIG);
+
+  return { type: '', message: token };
+};
+
 const usersService = {
   create,
+  login,
 };
 
 export default usersService;

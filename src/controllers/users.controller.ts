@@ -7,8 +7,20 @@ const create = async (req: Request, res: Response) => {
   res.status(201).json({ token });
 };
 
+const login = async (req: Request, res: Response) => {
+  const credentials = req.body;
+  const data = await usersService.login(credentials);
+
+  if (data.type) {
+    return res.status(data.type as number).json({ message: data.message });
+  }
+
+  res.status(200).json({ token: data.message });
+};
+
 const usersController = {
   create,
+  login,
 };
 
 export default usersController;
