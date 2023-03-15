@@ -1,8 +1,16 @@
 import { Request, Response } from 'express';
 import usersService from '../services/users.service';
+import joi from '../validations/schemas';
 
 const create = async (req: Request, res: Response) => {
   const user = req.body;
+  console.log('controller');
+  
+  const { error } = joi.userSchema.validate(user);
+  if (error) {
+    return res.status(422).json({ message: error.message });
+  } 
+
   const token = await usersService.create(user);
   res.status(201).json({ token });
 };
