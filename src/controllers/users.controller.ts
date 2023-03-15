@@ -4,7 +4,6 @@ import joi from '../validations/schemas';
 
 const create = async (req: Request, res: Response) => {
   const user = req.body;
-  console.log('controller');
   
   const { error } = joi.userSchema.validate(user);
   if (error) {

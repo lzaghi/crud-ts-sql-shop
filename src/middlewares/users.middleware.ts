@@ -16,10 +16,6 @@ const validateUsersBody = (req: Request, res: Response, next: NextFunction) => {
     return error;
   }
 
-  if (req.body.level < 1) {
-    return res.status(422).json({ message: '"level" must be greater than or equal to 1' });
-  }
-
   next();
 };
 
