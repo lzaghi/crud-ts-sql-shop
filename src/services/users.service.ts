@@ -18,7 +18,6 @@ const create = async (user: IUser) => {
 
 const login = async (credentials: ICredentials) => {
   const user = await usersModel.getByUsername(credentials);
-  console.log(user);
   
   if (!user || user.password !== credentials.password) {
     return { type: 401, message: 'Username or password invalid' };
