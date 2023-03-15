@@ -1,4 +1,4 @@
-import { RowDataPacket } from 'mysql2';
+import { ResultSetHeader, RowDataPacket } from 'mysql2';
 import connection from './connection';
 import { IOrder } from '../interfaces/orders';
 
@@ -13,8 +13,17 @@ const getAll = async (): Promise<IOrder[]> => {
   return orders;
 };
 
+const create = async (userId: number) => {
+  const [{ insertId }] = await connection.execute<ResultSetHeader>(`
+    INSERT INTO Trybesmith.orders (user_id)
+    VALUES (?)
+  `, [userId]);
+  return insertId;
+};
+
 const ordersModel = {
   getAll,
+  create,
 };
 
 export default ordersModel;

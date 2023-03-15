@@ -21,9 +21,18 @@ const getByUsername = async (credentials: ICredentials) => {
   return user;
 };
 
+const getById = async (userId: number) => {
+  const [[user]] = await connection.execute<RowDataPacket[] & IUser>(`
+    SELECT * FROM Trybesmith.users
+    WHERE id = ?
+  `, [userId]);
+  return user;
+};
+
 const usersModel = {
   create,
   getByUsername,
+  getById,
 };
 
 export default usersModel;

@@ -23,15 +23,21 @@ const login = async (credentials: ICredentials) => {
     return { type: 401, message: 'Username or password invalid' };
   }
 
-  const payload = { id: user.id, username: user.username };
+  const payload = { id: user.id as number, username: user.username as string };
   const token = jwt.sign(payload, JWT_SECRET, JWT_CONFIG);
 
   return { type: '', message: token };
 };
 
+const getById = async (userId: number) => {
+  const user = await usersModel.getById(userId);
+  return user;
+};
+
 const usersService = {
   create,
   login,
+  getById,
 };
 
 export default usersService;

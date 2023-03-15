@@ -11,4 +11,17 @@ const validateProductsBody = (req: Request, res: Response, next: NextFunction) =
   next();
 };
 
-export default validateProductsBody;
+const validateProductsIds = (req: Request, res: Response, next: NextFunction) => {
+  const { productsIds } = req.body;
+  if (!productsIds) {
+    return res.status(400).send({ message: '"productsIds" is required' });
+  }
+  next();
+};
+
+const validateProducts = {
+  validateProductsBody,
+  validateProductsIds,
+};
+
+export default validateProducts;
